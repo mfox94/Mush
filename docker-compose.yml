@@ -1,0 +1,26 @@
+version: '3'
+services:
+  jupyter:
+    build: 
+      context: .
+      dockerfile: notebook.Dockerfile
+    volumes:
+      - ./data:/home/jovyan/data
+      - ./notebook:/home/jovyan/notebook
+    ports:
+      - 8888:8888
+    container_name: jupyter_notebook
+    command: "start-notebook.sh --NotebookApp.token="
+
+  python:
+    build:
+      context: .
+      dockerfile: python.Dockerfile
+    volumes:
+      - ./data:/home/data
+      - ./src:/home/
+    container_name: python
+    # command: "python /home/train.py"
+    command: "tail -F echo 'ok'"
+    environment:
+      PYTHONUNBUFFERED: 1
